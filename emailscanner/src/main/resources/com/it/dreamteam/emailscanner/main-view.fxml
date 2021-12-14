@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="318.0" prefWidth="530.0"
+            xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.it.dreamteam.emailscanner.controller.GitController">
+    <center>
+        <TableView fx:id="table" prefHeight="219.0" prefWidth="492.0" BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn fx:id="name" prefWidth="75.0" text="Name"/>
+                <TableColumn fx:id="login" prefWidth="75.0" text="Login"/>
+                <TableColumn fx:id="email" prefWidth="75.0" text="email"/>
+                <TableColumn fx:id="workEmail" prefWidth="75.0" text="workEmail"/>
+                <TableColumn fx:id="date" prefWidth="75.0" text="Date"/>
+
+            </columns>
+        </TableView>
+    </center>
+    <top>
+        <HBox prefHeight="58.0" prefWidth="530.0" BorderPane.alignment="CENTER">
+            <TextField fx:id="textField" text="Example Andy" alignment="CENTER"/>
+            <Button mnemonicParsing="false" text="Scan" onAction="#onScanButtonClick"/>
+        </HBox>
+    </top>
+</BorderPane>
