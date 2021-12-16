@@ -20,7 +20,7 @@ import java.util.Objects;
 public class GitHubService {
     public static GitHub github;
 
-    public ProfileInfo findProfileInfo(String name) {
+    public ProfileInfo findProfileInfo(String name) throws IOException {
 
         GHUser user = findUserByName(name);
 
@@ -58,8 +58,8 @@ public class GitHubService {
         }
     }
 
-    @SneakyThrows
-    private GHCommit getLastCommit(GHUser user) {
+
+    private GHCommit getLastCommit(GHUser user) throws IOException {
         Comparator<GHRepository> comparator = (o1, o2) -> {
             try {
                 if (o1.getUpdatedAt().before(o2.getUpdatedAt())) {

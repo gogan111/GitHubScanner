@@ -66,8 +66,8 @@ public class GitController implements ControlledScreen {
             }
             table.setItems(people);
 
-            ProfileInfo profileInfo = table.getItems().get(0);
-            System.out.println(profileInfo.getName());
+//            ProfileInfo profileInfo = table.getItems().get(0);
+//            System.out.println(profileInfo.getName());
         }
     }
 

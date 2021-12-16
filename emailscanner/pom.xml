@@ -6,12 +6,15 @@
 
     <groupId>com.it.dreamteam</groupId>
     <artifactId>emailscanner</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1-ALPHA</version>
     <name>emailscanner</name>
+    <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.7.1</junit.version>
+        <lombok.version>1.18.22</lombok.version>
+        <mapstruct.version>1.4.2.Final</mapstruct.version>
     </properties>
 
     <dependencies>
@@ -19,9 +22,16 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.22</version>
+            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct -->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.kohsuke/github-api -->
         <dependency>
             <groupId>org.kohsuke</groupId>
@@ -71,10 +81,215 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/net.sf.launch4j/launch4j -->
+        <dependency>
+            <groupId>net.sf.launch4j</groupId>
+            <artifactId>launch4j</artifactId>
+            <version>3.14</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.akathist.maven.plugins.launch4j/launch4j-maven-plugin -->
+        <dependency>
+            <groupId>com.akathist.maven.plugins.launch4j</groupId>
+            <artifactId>launch4j-maven-plugin</artifactId>
+            <version>2.1.2</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
         <plugins>
+<!--            <plugin>-->
+<!--                <groupId>com.akathist.maven.plugins.launch4j</groupId>-->
+<!--                <artifactId>launch4j-maven-plugin</artifactId>-->
+<!--                <version>2.1.2</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>scanner</id>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>launch4j</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <headerType>gui</headerType>-->
+<!--                            <outfile>asd.exe</outfile>-->
+<!--                            <jar>emailscanner-0.1-ALPHA.jar</jar>-->
+<!--                            <errTitle>asdasd</errTitle>-->
+<!--                            <icon>favicon.ico</icon>-->
+<!--                            <classPath>-->
+<!--                                <mainClass>Boostrap</mainClass>-->
+<!--                                <addDependencies>-->
+<!--                                    true-->
+<!--                                </addDependencies>-->
+<!--                                <preCp>anything</preCp>-->
+<!--                            </classPath>-->
+<!--                            <jre>-->
+<!--                                <minVersion>-->
+<!--                                    11-->
+<!--                                </minVersion>-->
+<!--                            </jre>-->
+<!--                            <versionInfo>-->
+<!--                                <fileVersion>-->
+<!--                                    ${project.version}-->
+<!--                                </fileVersion>-->
+<!--                                <txtFileVersion>-->
+<!--                                    ${project.version}-->
+<!--                                </txtFileVersion>-->
+<!--                                <fileDescription>-->
+<!--                                    Swing application-->
+<!--                                </fileDescription>-->
+<!--                                <copyright>-->
+<!--                                    Copyright © 2011-->
+<!--                                </copyright>-->
+<!--                                <productVersion>-->
+<!--                                    ${project.version}-->
+<!--                                </productVersion>-->
+<!--                                <txtProductVersion>-->
+<!--                                    ${project.version}-->
+<!--                                </txtProductVersion>-->
+<!--                                <companyName>-->
+<!--                                    asd-->
+<!--                                </companyName>-->
+<!--                                <productName>-->
+<!--                                    asd-->
+<!--                                </productName>-->
+<!--                                <internalName>-->
+<!--                                    asd-->
+<!--                                </internalName>-->
+<!--                                <originalFilename>-->
+<!--                                    asdas.exe-->
+<!--                                </originalFilename>-->
+<!--                            </versionInfo>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-assembly-plugin</artifactId>-->
+<!--                <version>3.3.0</version>-->
+<!--                <configuration>-->
+<!--                    <descriptorRefs>-->
+<!--                        <descriptorRef>jar-with-dependencies</descriptorRef>-->
+<!--                    </descriptorRefs>-->
+<!--                    <appendAssemblyId>false</appendAssemblyId>-->
+<!--                    <attach>false</attach>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>make-assembly</id> &lt;!&ndash; this is used for inheritance merges &ndash;&gt;-->
+<!--                        <phase>package</phase> &lt;!&ndash; bind to the packaging phase &ndash;&gt;-->
+<!--                        <goals>-->
+<!--                            <goal>single</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <archive>-->
+<!--                                <manifest>-->
+<!--                                    <mainClass>-->
+<!--                                        com.it.dreamteam.emailscanner.Main-->
+<!--                                    </mainClass>-->
+<!--                                </manifest>-->
+<!--                            </archive>-->
+<!--                            <descriptorRefs>-->
+<!--                                <descriptorRef>jar-with-dependencies</descriptorRef>-->
+<!--                            </descriptorRefs>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
+
+            <plugin>
+                <!-- This copies the JRE used to do the build from java.home - should be 32 bit Windows JRE -->
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <!-- here the phase you need -->
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/win32/java</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${java.home}</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <manifestEntries>
+                                <Main-Class>com.it.dreamteam.emailscanner.Main</Main-Class>
+                                <Build-Number>123</Build-Number>
+                            </manifestEntries>
+                        </transformer>
+                    </transformers>
+                    <shadedArtifactAttached>true</shadedArtifactAttached> <!-- Make the shaded artifact not the main one -->
+                    <shadedClassifierName>shaded</shadedClassifierName> <!-- set the suffix to the shaded jar -->
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.bluestemsoftware.open.maven.plugin</groupId>
+                <artifactId>launch4j-plugin</artifactId>
+                <version>1.5.0.0</version>
+                <executions>
+
+                    <!-- GUI exe -->
+                    <execution>
+                        <id>l4j-gui</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <outfile>target/app-gui.exe</outfile>
+                            <jar>target/${artifactId}-${version}-shaded.jar</jar> <!-- 'shaded' is the value set on shadedClassifierName above -->
+                            <errTitle>App Err</errTitle>
+                            <classPath>
+                                <mainClass>com.it.dreamteam.emailscanner.Main</mainClass>
+                            </classPath>
+                            <icon>src/main/resources/icons/icon.ico</icon>
+                            <jre>
+                                <path>./win32/java</path>
+                            </jre>
+
+                            <versionInfo>
+                                <fileVersion>1.0.0.0</fileVersion>
+                                <txtFileVersion>1.0.0.0</txtFileVersion>
+                                <fileDescription>Desc</fileDescription>
+                                <copyright>C</copyright>
+                                <productVersion>1.0.0.0</productVersion>
+                                <txtProductVersion>1.0.0.0</txtProductVersion>
+                                <productName>Product</productName>
+                                <internalName>Product</internalName>
+                                <originalFilename>App.exe</originalFilename>
+                            </versionInfo>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -82,6 +297,19 @@
                 <configuration>
                     <source>11</source>
                     <target>11</target>
+                    <compilerArgument>-Xlint</compilerArgument>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             <plugin>
