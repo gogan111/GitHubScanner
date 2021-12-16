@@ -8,10 +8,8 @@ import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GHUser;
 import org.kohsuke.github.GHUserSearchBuilder;
 import org.kohsuke.github.GitHub;
-import org.kohsuke.github.GitHubBuilder;
 import org.kohsuke.github.PagedIterable;
 import org.kohsuke.github.PagedSearchIterable;
-
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,19 +17,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
-public class GitHubJob {
-    private final GitHub github;
-
-    public GitHubJob() {
-        try {
-            github = new GitHubBuilder()
-                    .withAppInstallationToken(System.getenv("GITHUB_TOKEN"))
-                    .build();
-        } catch (IOException e) {
-            throw new RuntimeException();
-        }
-    }
-
+public class GitHubService {
+    public static GitHub github;
 
     public ProfileInfo findProfileInfo(String name) {
 
@@ -39,18 +26,20 @@ public class GitHubJob {
 
         //3. получить рабочий имейл и дату
         GHCommit lastCommit = getLastCommit(user);
-        if (lastCommit == null) {
-            throw new RuntimeException();
-        }
+
         try {
-            return ProfileInfo.builder()
+            ProfileInfo info = ProfileInfo.builder()
                     .login(user.getLogin())
                     .picture(user.getAvatarUrl())
                     .name(user.getName())
                     .email(user.getEmail())
-                    .workEmail(lastCommit.getCommitShortInfo().getCommitter().getEmail())
-                    .lastCommit(lastCommit.getCommitShortInfo().getCommitter().getDate())
                     .build();
+
+            if (lastCommit != null) {
+                info.setWorkEmail(lastCommit.getCommitShortInfo().getCommitter().getEmail());
+                info.setLastCommit(lastCommit.getCommitShortInfo().getCommitter().getDate());
+            }
+            return info;
         } catch (IOException e) {
             return null;
         }
@@ -60,13 +49,12 @@ public class GitHubJob {
 
         GHUserSearchBuilder ghUserSearchBuilder = github.searchUsers();
         List<GHUser> ghUsers = ghUserSearchBuilder.q(name).language(null).list()._iterator(10).nextPage();
-//todo fix mn
         if (ghUsers.isEmpty()) {
-            throw new NameNotFoundException();
+            throw new NameNotFoundException("Пользователь с таким именем не наден");
         } else if (ghUsers.size() == 1) {
             return ghUsers.get(0);
         } else {
-            throw new RuntimeException();
+            throw new RuntimeException(String.format("Найдено %d+ аккаунтов с заданым именем", ghUsers.size()));
         }
     }
 
@@ -97,7 +85,6 @@ public class GitHubJob {
             }
         }
         return null;
-
     }
 
     public List<GHUser> findUsersByName(String name, String language) {
