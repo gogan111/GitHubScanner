@@ -94,111 +94,10 @@
             <artifactId>launch4j-maven-plugin</artifactId>
             <version>2.1.2</version>
         </dependency>
-
-
     </dependencies>
 
     <build>
         <plugins>
-<!--            <plugin>-->
-<!--                <groupId>com.akathist.maven.plugins.launch4j</groupId>-->
-<!--                <artifactId>launch4j-maven-plugin</artifactId>-->
-<!--                <version>2.1.2</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>scanner</id>-->
-<!--                        <phase>package</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>launch4j</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <headerType>gui</headerType>-->
-<!--                            <outfile>asd.exe</outfile>-->
-<!--                            <jar>emailscanner-0.1-ALPHA.jar</jar>-->
-<!--                            <errTitle>asdasd</errTitle>-->
-<!--                            <icon>favicon.ico</icon>-->
-<!--                            <classPath>-->
-<!--                                <mainClass>Boostrap</mainClass>-->
-<!--                                <addDependencies>-->
-<!--                                    true-->
-<!--                                </addDependencies>-->
-<!--                                <preCp>anything</preCp>-->
-<!--                            </classPath>-->
-<!--                            <jre>-->
-<!--                                <minVersion>-->
-<!--                                    11-->
-<!--                                </minVersion>-->
-<!--                            </jre>-->
-<!--                            <versionInfo>-->
-<!--                                <fileVersion>-->
-<!--                                    ${project.version}-->
-<!--                                </fileVersion>-->
-<!--                                <txtFileVersion>-->
-<!--                                    ${project.version}-->
-<!--                                </txtFileVersion>-->
-<!--                                <fileDescription>-->
-<!--                                    Swing application-->
-<!--                                </fileDescription>-->
-<!--                                <copyright>-->
-<!--                                    Copyright © 2011-->
-<!--                                </copyright>-->
-<!--                                <productVersion>-->
-<!--                                    ${project.version}-->
-<!--                                </productVersion>-->
-<!--                                <txtProductVersion>-->
-<!--                                    ${project.version}-->
-<!--                                </txtProductVersion>-->
-<!--                                <companyName>-->
-<!--                                    asd-->
-<!--                                </companyName>-->
-<!--                                <productName>-->
-<!--                                    asd-->
-<!--                                </productName>-->
-<!--                                <internalName>-->
-<!--                                    asd-->
-<!--                                </internalName>-->
-<!--                                <originalFilename>-->
-<!--                                    asdas.exe-->
-<!--                                </originalFilename>-->
-<!--                            </versionInfo>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-assembly-plugin</artifactId>-->
-<!--                <version>3.3.0</version>-->
-<!--                <configuration>-->
-<!--                    <descriptorRefs>-->
-<!--                        <descriptorRef>jar-with-dependencies</descriptorRef>-->
-<!--                    </descriptorRefs>-->
-<!--                    <appendAssemblyId>false</appendAssemblyId>-->
-<!--                    <attach>false</attach>-->
-<!--                </configuration>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>make-assembly</id> &lt;!&ndash; this is used for inheritance merges &ndash;&gt;-->
-<!--                        <phase>package</phase> &lt;!&ndash; bind to the packaging phase &ndash;&gt;-->
-<!--                        <goals>-->
-<!--                            <goal>single</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <archive>-->
-<!--                                <manifest>-->
-<!--                                    <mainClass>-->
-<!--                                        com.it.dreamteam.emailscanner.Main-->
-<!--                                    </mainClass>-->
-<!--                                </manifest>-->
-<!--                            </archive>-->
-<!--                            <descriptorRefs>-->
-<!--                                <descriptorRef>jar-with-dependencies</descriptorRef>-->
-<!--                            </descriptorRefs>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-
             <plugin>
                 <!-- This copies the JRE used to do the build from java.home - should be 32 bit Windows JRE -->
                 <artifactId>maven-resources-plugin</artifactId>
@@ -264,7 +163,7 @@
                         <configuration>
                             <headerType>gui</headerType>
                             <outfile>target/app-gui.exe</outfile>
-                            <jar>target/${artifactId}-${version}-shaded.jar</jar> <!-- 'shaded' is the value set on shadedClassifierName above -->
+                            <jar>target/${project.artifactId}-${project.version}-shaded.jar</jar> <!-- 'shaded' is the value set on shadedClassifierName above -->
                             <errTitle>App Err</errTitle>
                             <classPath>
                                 <mainClass>com.it.dreamteam.emailscanner.Main</mainClass>
@@ -289,7 +188,6 @@
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

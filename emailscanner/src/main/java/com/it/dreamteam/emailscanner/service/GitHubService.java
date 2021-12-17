@@ -80,8 +80,12 @@ public class GitHubService {
         PagedIterable<GHCommit> ghCommits = list.get(0).listCommits();
         List<GHCommit> commits = ghCommits._iterator(10).nextPage();
         for (GHCommit commit : commits) {
-            if (Objects.equals(commit.getCommitter().getLogin(), user.getLogin())) {
-                return commit;
+            try {
+                if (Objects.equals(commit.getCommitter().getLogin(), user.getLogin())) {
+                    return commit;
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
             }
         }
         return null;
