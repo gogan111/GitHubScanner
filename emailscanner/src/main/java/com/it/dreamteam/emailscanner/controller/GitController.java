@@ -12,6 +12,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.Pane;
 
 import java.time.LocalDateTime;
@@ -38,14 +40,30 @@ public class GitController implements ControlledScreen {
     @FXML
     public TableColumn<ProfileInfo, LocalDateTime> date;
     @FXML
-    TableView<ProfileInfo> table = new TableView<>();
+    TableView<ProfileInfo> table;
 
     private final GitHubService service = new GitHubService();
     private final ObservableList<ProfileInfo> people = FXCollections.observableArrayList();
 
     @FXML
+    public void copyText() {
+        String email = table.getSelectionModel().getSelectedItem().getEmail();
+        if (email == null) {
+            email = table.getSelectionModel().getSelectedItem().getWorkEmail();
+        }
+
+        final Clipboard clipboard = Clipboard.getSystemClipboard();
+        final ClipboardContent content = new ClipboardContent();
+        content.putString(email);
+        clipboard.setContent(content);
+    }
+
+    @FXML
     protected void onScanButtonClick() {
         errorLabel.setVisible(false);
+        people.clear();
+        table.getSelectionModel().setCellSelectionEnabled(true);
+
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         login.setCellValueFactory(new PropertyValueFactory<>("login"));
         email.setCellValueFactory(new PropertyValueFactory<>("email"));
@@ -65,7 +83,6 @@ public class GitController implements ControlledScreen {
                 people.add(user);
             }
             table.setItems(people);
-
         }
     }
 

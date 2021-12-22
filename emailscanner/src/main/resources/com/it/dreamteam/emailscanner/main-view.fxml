@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.it.dreamteam.emailscanner.controller.GitController">
-    <Pane fx:id="pane" prefHeight="27.0" prefWidth="674.0">
-        <Button fx:id="logoutButton" layoutX="611.0" layoutY="1.0" mnemonicParsing="false"
-                onAction="#onLogoutButtonClick" text="log out"/>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="350.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.it.dreamteam.emailscanner.controller.GitController">
+    <Pane fx:id="pane" prefHeight="27.0" prefWidth="870.0">
+        <Button fx:id="logoutButton" layoutX="799.0" layoutY="1.0" mnemonicParsing="false" onAction="#onLogoutButtonClick" text="log out" />
     </Pane>
     <Separator prefWidth="200.0" />
-    <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                prefHeight="318.0" prefWidth="674.0">
+    <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="318.0" prefWidth="870.0">
         <center>
-            <TableView fx:id="table" prefHeight="219.0" prefWidth="492.0" BorderPane.alignment="CENTER">
+            <TableView onMouseClicked="#copyText" fx:id="table" minHeight="-Infinity" minWidth="-Infinity" prefHeight="257.0" prefWidth="830.0" BorderPane.alignment="CENTER">
                 <columns>
-                    <TableColumn fx:id="name" prefWidth="131" text="Name" />
-                    <TableColumn fx:id="login" prefWidth="107" text="Login" />
-                    <TableColumn fx:id="email" prefWidth="138" text="email" />
-                    <TableColumn fx:id="workEmail" prefWidth="113" text="Commit email" />
-                    <TableColumn fx:id="date" prefWidth="177" text="Date" />
+                    <TableColumn fx:id="name" prefWidth="128.19999730587006" text="Name" />
+                    <TableColumn fx:id="login" prefWidth="147.19996643066406" resizable="false" text="Login" />
+                    <TableColumn fx:id="email" prefWidth="180.0" resizable="false" text="email" />
+                    <TableColumn fx:id="workEmail" prefWidth="170.39993286132812" resizable="false" text="Commit email" />
+                    <TableColumn fx:id="date" prefWidth="180.0" resizable="false" text="Last commit" />
                 </columns>
             <columnResizePolicy>
                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
+            <BorderPane.margin>
+               <Insets left="10.0" right="10.0" />
+            </BorderPane.margin>
             </TableView>
         </center>
         <top>

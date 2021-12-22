@@ -18,14 +18,19 @@ public class Starter extends Application {
 
     @Override
     public void start(Stage stage) {
+        stage.setResizable(true);
+
         ScreensController controller = new ScreensController(this.getHostServices());
         controller.loadScreen(Starter.loginScreen, Starter.loginScreenFile);
         controller.loadScreen(Starter.mainScreen, Starter.mainScreenFile);
 
         controller.setScreen(Starter.loginScreen);
         Group root = new Group();
+
         root.getChildren().addAll(controller);
         Scene scene = new Scene(root);
+        stage.setMinHeight(350);
+        stage.setMinWidth(885);
         stage.setTitle("GitScanner");
         stage.setScene(scene);
         stage.show();

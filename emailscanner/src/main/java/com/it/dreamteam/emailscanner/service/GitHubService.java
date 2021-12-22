@@ -2,7 +2,6 @@ package com.it.dreamteam.emailscanner.service;
 
 import com.it.dreamteam.emailscanner.exception.NameNotFoundException;
 import com.it.dreamteam.emailscanner.model.ProfileInfo;
-import lombok.SneakyThrows;
 import org.kohsuke.github.GHCommit;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GHUser;
@@ -24,7 +23,7 @@ public class GitHubService {
 
         GHUser user = findUserByName(name);
 
-        //3. получить рабочий имейл и дату
+        //3. последний коммит с рабочим имейлом и датой
         GHCommit lastCommit = getLastCommit(user);
 
         try {
